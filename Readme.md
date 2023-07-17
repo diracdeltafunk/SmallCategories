@@ -31,7 +31,7 @@ Each file is sorted lexicographically.
 
 ## Statistics
 
-**Note.** More than this is known -- see [OEIS](https://oeis.org/A125696) and [Cruttwell-Leblanc](https://www.reluctantm.com/gcruttw/publications/ams2014CruttwellCountingFiniteCats.pdf).
+**Note.** More than this is known -- see [OEIS](https://oeis.org/A125696) and [Cruttwell-Leblanc](https://www.reluctantm.com/gcruttw/publications/ams2014CruttwellCountingFiniteCats.pdf). This table shows what is actually contained in the database (with one exception: the database does not deal with categories with 0 objects).
 
 | Morphisms ↓ / Objects → | 0 | 1     | 2    | 3   | 4   | 5   | 6  | 7 | 8 | Total     |
 |-------------------------|---|-------|------|-----|-----|-----|----|---|---|-----------|
