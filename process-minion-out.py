@@ -30,9 +30,8 @@ uniques = []
 
 with open(INFILE) as file:
     for line in file:
-        mat = [
-            [int(line[2 * (SIZE * j + k)]) for j in range(SIZE)] for k in range(SIZE)
-        ]
+        numbers = line.split()
+        mat = [[int(numbers[SIZE * j + k]) for j in range(SIZE)] for k in range(SIZE)]
         if all(act(mat, p) >= mat for p in perms):
             uniques.append(mat)
 
