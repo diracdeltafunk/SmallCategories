@@ -2,6 +2,8 @@
 
 The SmallCategories Project (name inspired by the [SmallGroups](https://docs.gap-system.org/pkg/smallgrp/doc/chap1.html) library in GAP) aims to build a useful database of (isomorphism classes of) small finite categories. Currently, the database is complete for categories with ≤7 morphisms.
 
+*Note.* This is a lie -- the computation for 7 morphisms, 1 object not yet complete! Coming soon.
+
 This repository contains the code that generates the database, and the complete list of already-computed multiplication tables.
 
 ## Requirements
