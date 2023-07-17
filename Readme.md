@@ -45,6 +45,10 @@ Each file is sorted lexicographically.
 | 7                       | 0 | 31559 | 4013 | 716 | 127 | 21  | 3  | 1 | 0 | **36440** |
 | 8                       | 0 |       |      |     | 862 | 131 | 21 | 3 | 1 |           |
 
+## Acknowledgements
+
+The work here is greatly inspired by [Cruttwell-Leblanc](https://www.reluctantm.com/gcruttw/publications/ams2014CruttwellCountingFiniteCats.pdf). They deserve all of the credit for all of the ideas in the code -- I simply wanted to make available a complete database of small categories.
+
 ## TODO
 
 * Build a website for navigating the database.
