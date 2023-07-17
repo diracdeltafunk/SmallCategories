@@ -76,4 +76,9 @@ for i in range(OBJS):
     print("element(dom, {}, {})".format(i, i))
     print("element(cod, {}, {})".format(i, i))
 
+print("**SEARCH**")
+
+# Unclear if this is best. Probably worth testing all possible orders at some point.
+print("VARORDER [dom,cod,isdef,mat]")
+
 print("**EOF**")
