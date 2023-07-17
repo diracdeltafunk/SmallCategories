@@ -4,12 +4,27 @@ The SmallCategories Project (name inspired by the [SmallGroups](https://docs.gap
 
 This repository contains the code that generates the database.
 
+# Requirements
+
+If you want to generate the database yourself, you will need:
+
+* Python 3
+* [Minion](https://github.com/minion/minion)
+
+# Running
+
+To generate the multiplication tables of categories with n morphisms and k objects, run
+
+> ./countcats.sh n k
+
+This will produce a file named `catsn-k.txt` (containing the multipication tables) in the `database` directory, and print out the number of isomorphism classes of such categories.
+
 # At a Glance
 
 **Note.** More than this is known -- see [OEIS](https://oeis.org/A125696) and [Cruttwell-Leblanc](https://www.reluctantm.com/gcruttw/publications/ams2014CruttwellCountingFiniteCats.pdf).
 
-| Morphisms ↓ / Objects → | 0 | 1    | 2   | 3   | 4  | 5 | 6 | Total |
-|-------------------------|---|------|-----|-----|----|---|---|-------|
+| Morphisms ↓ / Objects → | 0 | 1    | 2   | 3   | 4  | 5 | 6 | Total     |
+|-------------------------|---|------|-----|-----|----|---|---|-----------|
 | 0                       | 1 | 0    | 0   | 0   | 0  | 0 | 0 | **1**     |
 | 1                       | 0 | 1    | 0   | 0   | 0  | 0 | 0 | **1**     |
 | 2                       | 0 | 2    | 1   | 0   | 0  | 0 | 0 | **3**     |
