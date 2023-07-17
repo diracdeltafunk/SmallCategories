@@ -80,5 +80,6 @@ print("**SEARCH**")
 
 # Unclear if this is best. Probably worth testing all possible orders at some point.
 print("VARORDER [dom,cod,isdef,mat]")
+print("PRINT [mat]")
 
 print("**EOF**")
