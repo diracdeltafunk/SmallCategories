@@ -29,6 +29,8 @@ Each text file in the `database` directory contains a list (one entry per line) 
 
 Each file is sorted lexicographically.
 
+If you use this database or the code in this repository, I'd appreciate it if you cite me (Ben Spitz) and add a link to this repository to your acknowledgements. You are not required to do so, but I would appreciate it.
+
 ## Statistics
 
 **Note.** More than this is known -- see [OEIS](https://oeis.org/A125696) and [Cruttwell-Leblanc](https://www.reluctantm.com/gcruttw/publications/ams2014CruttwellCountingFiniteCats.pdf). This table shows what is actually contained in the database (with one exception: the database does not deal with categories with 0 objects).
