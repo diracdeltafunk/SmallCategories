@@ -1,8 +1,8 @@
 ## SmallCategories
 
-The SmallCategories Project (name inspired by the [SmallGroups](https://docs.gap-system.org/pkg/smallgrp/doc/chap1.html) library in GAP) aims to build a useful database of (isomorphism classes of) small finite categories. Currently, the database supports categories with ≤6 morphisms.
+The SmallCategories Project (name inspired by the [SmallGroups](https://docs.gap-system.org/pkg/smallgrp/doc/chap1.html) library in GAP) aims to build a useful database of (isomorphism classes of) small finite categories. Currently, the database is complete for categories with ≤7 morphisms.
 
-This repository contains the code that generates the database.
+This repository contains the code that generates the database, and the complete list of already-computed multiplication tables.
 
 # Requirements
 
@@ -19,6 +19,10 @@ To generate the multiplication tables of categories with n morphisms and k objec
 
 This will produce a file named `catsn-k.txt` (containing the multipication tables) in the `database` directory, and print out the number of isomorphism classes of such categories.
 
+To run the above command for all 0≤k≤n≤N, run
+
+> ./gen_full_database.sh N
+
 # At a Glance
 
 **Note.** More than this is known -- see [OEIS](https://oeis.org/A125696) and [Cruttwell-Leblanc](https://www.reluctantm.com/gcruttw/publications/ams2014CruttwellCountingFiniteCats.pdf).
@@ -33,7 +37,7 @@ This will produce a file named `catsn-k.txt` (containing the multipication table
 | 5                       | 0 | 228  | 77   | 20  | 3   | 1   | 0  | 0 | 0 | **329**  |
 | 6                       | 0 | 2237 | 485  | 111 | 21  | 3   | 1  | 0 | 0 | **2858** |
 | 7                       | 0 |      | 4013 | 716 | 127 | 21  | 3  | 1 | 0 |          |
-| 8                       | 0 |      |      |     |     | 131 | 21 | 3 | 1 |          |
+| 8                       | 0 |      |      |     | 862 | 131 | 21 | 3 | 1 |          |
 
 # TODO
 
