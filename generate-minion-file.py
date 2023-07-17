@@ -6,7 +6,7 @@ SIZE = int(sys.argv[1])
 OBJS = int(sys.argv[2])
 
 assert SIZE >= 0
-assert OBJS >= 0
+assert OBJS >= 1
 assert OBJS <= SIZE
 
 print("MINION 3")
@@ -14,8 +14,8 @@ print("MINION 3")
 print("**VARIABLES**")
 print("BOOL isdef[{},{}]".format(SIZE, SIZE))
 print("DISCRETE mat[{},{}] {{0..{}}}".format(SIZE, SIZE, SIZE))
-print("DISCRETE dom[{}] {{0..{}}}".format(SIZE, max(OBJS - 1, 0)))
-print("DISCRETE cod[{}] {{0..{}}}".format(SIZE, max(OBJS - 1, 0)))
+print("DISCRETE dom[{}] {{0..{}}}".format(SIZE, OBJS - 1))
+print("DISCRETE cod[{}] {{0..{}}}".format(SIZE, OBJS - 1))
 
 print("**CONSTRAINTS**")
 # Make sure mat[i,j]<SIZE (i.e. composition is defined) iff dom[i]==cod[j]
