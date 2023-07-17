@@ -34,8 +34,10 @@ with open(INFILE) as file:
             [int(line[2 * (SIZE * SIZE + SIZE * j + k)]) for j in range(SIZE)]
             for k in range(SIZE)
         ]
-        if all([act(mat, p) >= mat for p in perms]):
+        if all(act(mat, p) >= mat for p in perms):
             uniques.append(mat)
+
+uniques.sort()
 
 numcats = 0
 
