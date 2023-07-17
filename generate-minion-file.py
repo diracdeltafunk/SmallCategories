@@ -24,12 +24,9 @@ for i in range(SIZE):
     # dom and cod are idempotent
     print("watchelement(dom, dom[{}], dom[{}])".format(i, i))
     print("watchelement(cod, cod[{}], cod[{}])".format(i, i))
-    # dom and cod are l/r identities
+    # dom/cod are right/left identities
     print("watchelement([mat[_,{}]], cod[{}], {})".format(i, i, i))
     print("watchelement([mat[{},_]], dom[{}], {})".format(i, i, i))
-    # NOTE: these conditions imply that, for example,
-    # dom(cod(f)) = cod(f) and cod(dom(f)) = dom(f)
-    # Proof: cod(f)∘f = f is defined, so dom(cod(f)) = cod(f)
 
 # # Declare that dom(f∘g) = dom(g) whenever defined by:
 # # watched-or({eq(mat[i,j],SIZE), watchelement(dom, mat[i,j], dom[j])})
