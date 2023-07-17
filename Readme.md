@@ -2,8 +2,6 @@
 
 The SmallCategories Project (name inspired by the [SmallGroups](https://docs.gap-system.org/pkg/smallgrp/doc/chap1.html) library in GAP) aims to build a useful database of (isomorphism classes of) small finite categories. Currently, the database is complete for categories with ≤7 morphisms.
 
-*Note.* This is a lie -- the computation for 7 morphisms, 1 object not yet complete! Coming soon.
-
 This repository contains the code that generates the database, and the complete list of already-computed multiplication tables.
 
 ## Requirements
@@ -35,17 +33,17 @@ Each file is sorted lexicographically.
 
 **Note.** More than this is known -- see [OEIS](https://oeis.org/A125696) and [Cruttwell-Leblanc](https://www.reluctantm.com/gcruttw/publications/ams2014CruttwellCountingFiniteCats.pdf).
 
-| Morphisms ↓ / Objects → | 0 | 1    | 2    | 3   | 4   | 5   | 6  | 7 | 8 | Total    |
-|-------------------------|---|------|------|-----|-----|-----|----|---|---|----------|
-| 0                       | 1 | 0    | 0    | 0   | 0   | 0   | 0  | 0 | 0 | **1**    |
-| 1                       | 0 | 1    | 0    | 0   | 0   | 0   | 0  | 0 | 0 | **1**    |
-| 2                       | 0 | 2    | 1    | 0   | 0   | 0   | 0  | 0 | 0 | **3**    |
-| 3                       | 0 | 7    | 3    | 1   | 0   | 0   | 0  | 0 | 0 | **11**   |
-| 4                       | 0 | 35   | 16   | 3   | 1   | 0   | 0  | 0 | 0 | **55**   |
-| 5                       | 0 | 228  | 77   | 20  | 3   | 1   | 0  | 0 | 0 | **329**  |
-| 6                       | 0 | 2237 | 485  | 111 | 21  | 3   | 1  | 0 | 0 | **2858** |
-| 7                       | 0 |      | 4013 | 716 | 127 | 21  | 3  | 1 | 0 |          |
-| 8                       | 0 |      |      |     | 862 | 131 | 21 | 3 | 1 |          |
+| Morphisms ↓ / Objects → | 0 | 1     | 2    | 3   | 4   | 5   | 6  | 7 | 8 | Total     |
+|-------------------------|---|-------|------|-----|-----|-----|----|---|---|-----------|
+| 0                       | 1 | 0     | 0    | 0   | 0   | 0   | 0  | 0 | 0 | **1**     |
+| 1                       | 0 | 1     | 0    | 0   | 0   | 0   | 0  | 0 | 0 | **1**     |
+| 2                       | 0 | 2     | 1    | 0   | 0   | 0   | 0  | 0 | 0 | **3**     |
+| 3                       | 0 | 7     | 3    | 1   | 0   | 0   | 0  | 0 | 0 | **11**    |
+| 4                       | 0 | 35    | 16   | 3   | 1   | 0   | 0  | 0 | 0 | **55**    |
+| 5                       | 0 | 228   | 77   | 20  | 3   | 1   | 0  | 0 | 0 | **329**   |
+| 6                       | 0 | 2237  | 485  | 111 | 21  | 3   | 1  | 0 | 0 | **2858**  |
+| 7                       | 0 | 31559 | 4013 | 716 | 127 | 21  | 3  | 1 | 0 | **36440** |
+| 8                       | 0 |       |      |     | 862 | 131 | 21 | 3 | 1 |           |
 
 ## TODO
 
