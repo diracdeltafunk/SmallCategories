@@ -11,9 +11,9 @@ If you want to generate the database yourself, you will need:
 * Python 3
 * [Minion](https://github.com/minion/minion)
 
-Optionally, if you have rustc installed, you can compile the `process-minion-out` crate to get an executable which performs exactly the same task as `process-minion-out.py`, only much faster. This can be useful because the processing step takes by far the most time.
+You may also want to have rustc/cargo installed -- this is optional, but will allow faster computation.
 
-## Running
+## Running (Without Rust)
 
 To generate the multiplication tables of categories with n morphisms and k objects, run
 
@@ -24,6 +24,16 @@ This will produce a file named `catsn-k.txt` (containing the multipication table
 To run the above command for all 1≤k≤n≤N, run
 
 > ./gen_full_database.sh N
+
+## Running (With Rust)
+
+First, build the `process-minion-out` crate with cargo, by running
+
+> cargo build --release
+
+inside `process-minion-out` directory. This produces an executable which performs the exact same task as the python script `process-minion-out.py`, but much faster.
+
+Once the crate is built, you can use `countcats_rust.sh` and `gen_full_database_rust.sh` instead of the aforementioned shell scripts. Everything should work the same.
 
 ## Using
 
