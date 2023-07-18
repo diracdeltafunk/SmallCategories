@@ -48,7 +48,7 @@ If you use this database or the code in this repository, I'd appreciate it if yo
 | 8                       | 0 |       |      | 5623 | 862  | 131 | 21  | 3  | 1   | 0 |           |
 | 9                       | 0 |       |      |      | 6739 | 926 | 132 | 21 | 3   | 1 |           |
 | ⋮                       |   |       |      |      |      |     |     |    |     |   |           |
-| 12                      | 0 |       |      |      |      |     |     |    | 952 |   |           |
+| 12                      | 0 |       |      |      |      |     |     |    | 950 |   |           |
 
 ## Acknowledgements
 
