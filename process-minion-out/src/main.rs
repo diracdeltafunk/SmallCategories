@@ -80,11 +80,15 @@ fn main() -> std::io::Result<()> {
 
     let file_out = std::fs::File::create(filename_out)?;
     let mut writer = BufWriter::new(file_out);
+    let mut num_uniques: usize = 0;
     for mat in uniques {
         // Write mat as a python list to the file
         writer.write(to_py_list(mat.into_iter().map(|r| to_py_list(r.into_iter()))).as_bytes())?;
         writer.write(b"\n")?;
+        num_uniques += 1;
     }
+
+    println!("{}", num_uniques);
 
     Ok(())
 }
