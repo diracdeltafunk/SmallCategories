@@ -11,6 +11,8 @@ If you want to generate the database yourself, you will need:
 * Python 3
 * [Minion](https://github.com/minion/minion)
 
+Optionally, if you have rustc installed, you can compile the `process-minion-out` crate to get an executable which performs exactly the same task as `process-minion-out.py`, only much faster. This can be useful because the processing step takes by far the most time.
+
 ## Running
 
 To generate the multiplication tables of categories with n morphisms and k objects, run
