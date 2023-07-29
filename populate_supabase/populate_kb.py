@@ -301,8 +301,10 @@ with psycopg.connect(
                 ).fetchall()
                 for pair in pairs:
                     if any(
-                        entry["proposition"] == pair[0] and entry["value"] == pair[1]
+                        str(entry["proposition"]) == pair[0]
+                        and entry["value"] == pair[1]
                         for entry in extant_props
                     ):
                         continue
+                    print("No match! Must access db again.")
                     ensure_prop(cur, row["id"], pair[0], pair[1])
