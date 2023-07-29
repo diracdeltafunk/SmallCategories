@@ -1,4 +1,4 @@
-from functor import *
+from functor import Functor
 
 
 class Category:

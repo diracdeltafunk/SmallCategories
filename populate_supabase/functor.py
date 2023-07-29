@@ -1,4 +1,4 @@
-from category import *
+from category import Category
 
 
 class Functor:
