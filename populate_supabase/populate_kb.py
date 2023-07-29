@@ -306,5 +306,4 @@ with psycopg.connect(
                         for entry in extant_props
                     ):
                         continue
-                    print("No match! Must access db again.")
                     ensure_prop(cur, row["id"], pair[0], pair[1])
