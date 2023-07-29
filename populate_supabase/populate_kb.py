@@ -32,7 +32,7 @@ IMPLICATIONS = [
 ]
 
 
-def prop_name_to_id(cur: psycopg.Cursor, prop_name: str) -> str | None:
+def prop_name_to_id(cur: psycopg.Cursor, prop_name: str):
     q = cur.execute(
         """
         SELECT
@@ -57,7 +57,7 @@ def prop_name_to_id(cur: psycopg.Cursor, prop_name: str) -> str | None:
     )
 
 
-def ensure_prop(cur: psycopg.Cursor, cat_id: str, prop_id: str, value: str) -> None:
+def ensure_prop(cur: psycopg.Cursor, cat_id: str, prop_id: str, value: str):
     # Check if KB record exists
     check = cur.execute(
         """
@@ -155,7 +155,7 @@ def ensure_prop_name(
     ensure_prop(cur, cat_id, prop_id, value)
 
 
-def ensure_impl(cur: psycopg.Cursor, cat_id: str, impl: dict[str, list[str]]) -> None:
+def ensure_impl(cur: psycopg.Cursor, cat_id: str, impl: dict[str, list[str]]):
     for id in impl["if_true"]:
         if not cur.execute(
             """
