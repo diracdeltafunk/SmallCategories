@@ -206,104 +206,108 @@ with psycopg.connect(
         print(
             "There are {} categories. Using batch size {}.".format(numcats, BATCH_SIZE)
         )
-        for i in tqdm(range(batches)):
-            batch = cur.execute(
-                'SELECT * FROM "Categories" LIMIT {} OFFSET {};'.format(
-                    BATCH_SIZE, i * BATCH_SIZE
-                )
-            ).fetchall()
-            for row in tqdm(batch, leave=False):
-                cat = from_minion_matrix(row["table"])
-                op = cat.op()
-                pairs = [
-                    (
-                        "0ec2037a-4087-4398-ac1b-b0002a75ddda",
-                        row["morphisms"] == 0,
-                    ),  # is_initial
-                    (
-                        "f0fa8980-6c49-4078-8eef-8c4c9512b442",
-                        row["morphisms"] == 1,
-                    ),  # is_terminal
-                    (
-                        "c35a969b-8a67-4e49-85f8-52fe04c9cd9c",
-                        cat.is_discrete(),
-                    ),  # is_discrete
-                    (
-                        "45f7883d-e570-42d0-99a5-4499d246a8d9",
-                        row["objects"] == 1,
-                    ),  # is_monoid
-                    (
-                        "0cb83176-255e-49de-8997-33928e870818",
-                        cat.has_terminal_object(),
-                    ),  # has_terminal_object
-                    (
-                        "8a69155d-13e8-4368-afae-ea49f9d5c4f1",
-                        op.has_terminal_object(),
-                    ),  # has_initial_object
-                    (
-                        "c73a6041-0bf1-4418-ad47-26dcf434db69",
-                        cat.is_preorder(),
-                    ),  # is_preorder
-                    (
-                        "83e07597-92b5-4281-a9fd-b08f08f9bcaf",
-                        cat.is_skeletal(),
-                    ),  # is_skeletal
-                    (
-                        "4eb6a458-b137-4a97-bb26-439276541174",
-                        cat.is_connected(),
-                    ),  # is_connected
-                    (
-                        "3ec9d656-687e-40e2-901c-8bd62f7474b7",
-                        cat.has_equalizers(),
-                    ),  # has_equalizers
-                    (
-                        "43162acc-1023-4f79-b493-2d043f7c1db6",
-                        op.has_equalizers(),
-                    ),  # has_coequalizers
-                    (
-                        "608c3d0b-39fc-44b6-a6f6-d22b67e56d8b",
-                        cat.is_groupoid(),
-                    ),  # is_groupoid
-                    (
-                        "24a6c2f9-b7f9-44dc-875b-5369a5bc841c",
-                        cat.has_binary_products(),
-                    ),  # has_binary_products
-                    (
-                        "3687fed0-5471-4bee-84ff-097afcb244a8",
-                        op.has_binary_products(),
-                    ),  # has_binary_coproducts
-                    (
-                        "1a52ca8e-7c83-42bd-9879-552625586589",
-                        cat.has_finite_products(),
-                    ),  # has_finite_products
-                    (
-                        "e226f70b-5780-4c88-8178-85159e9c9145",
-                        op.has_finite_products(),
-                    ),  # has_finite_coproducts
-                    (
-                        "a581b1fc-5caf-4e67-baab-a457531190e8",
-                        cat.is_finitely_complete(),
-                    ),  # is_complete
-                    (
-                        "3b1b76be-f2cb-44d0-9b12-a91f347af7b7",
-                        op.is_finitely_complete(),
-                    ),  # is_cocomplete
-                ]
-                extant_props = cur.execute(
-                    """
-                    SELECT "proposition","value"
-                    FROM "KnowledgeBase"
-                    WHERE "category" = '{}'
-                    ;
-                    """.format(
-                        row["id"]
+        with tqdm(
+            desc="Entries updated", unit="", bar_format="{desc}: {n}", leave=False
+        ) as counter:
+            for i in tqdm(range(batches)):
+                batch = cur.execute(
+                    'SELECT * FROM "Categories" LIMIT {} OFFSET {};'.format(
+                        BATCH_SIZE, i * BATCH_SIZE
                     )
                 ).fetchall()
-                for pair in pairs:
-                    if any(
-                        str(entry["proposition"]) == pair[0]
-                        and entry["value"] == pair[1]
-                        for entry in extant_props
-                    ):
-                        continue
-                    ensure_prop(cur, row["id"], pair[0], pair[1])
+                for row in tqdm(batch, leave=False):
+                    cat = from_minion_matrix(row["table"])
+                    op = cat.op()
+                    pairs = [
+                        (
+                            "0ec2037a-4087-4398-ac1b-b0002a75ddda",
+                            row["morphisms"] == 0,
+                        ),  # is_initial
+                        (
+                            "f0fa8980-6c49-4078-8eef-8c4c9512b442",
+                            row["morphisms"] == 1,
+                        ),  # is_terminal
+                        (
+                            "c35a969b-8a67-4e49-85f8-52fe04c9cd9c",
+                            cat.is_discrete(),
+                        ),  # is_discrete
+                        (
+                            "45f7883d-e570-42d0-99a5-4499d246a8d9",
+                            row["objects"] == 1,
+                        ),  # is_monoid
+                        (
+                            "0cb83176-255e-49de-8997-33928e870818",
+                            cat.has_terminal_object(),
+                        ),  # has_terminal_object
+                        (
+                            "8a69155d-13e8-4368-afae-ea49f9d5c4f1",
+                            op.has_terminal_object(),
+                        ),  # has_initial_object
+                        (
+                            "c73a6041-0bf1-4418-ad47-26dcf434db69",
+                            cat.is_preorder(),
+                        ),  # is_preorder
+                        (
+                            "83e07597-92b5-4281-a9fd-b08f08f9bcaf",
+                            cat.is_skeletal(),
+                        ),  # is_skeletal
+                        (
+                            "4eb6a458-b137-4a97-bb26-439276541174",
+                            cat.is_connected(),
+                        ),  # is_connected
+                        (
+                            "3ec9d656-687e-40e2-901c-8bd62f7474b7",
+                            cat.has_equalizers(),
+                        ),  # has_equalizers
+                        (
+                            "43162acc-1023-4f79-b493-2d043f7c1db6",
+                            op.has_equalizers(),
+                        ),  # has_coequalizers
+                        (
+                            "608c3d0b-39fc-44b6-a6f6-d22b67e56d8b",
+                            cat.is_groupoid(),
+                        ),  # is_groupoid
+                        (
+                            "24a6c2f9-b7f9-44dc-875b-5369a5bc841c",
+                            cat.has_binary_products(),
+                        ),  # has_binary_products
+                        (
+                            "3687fed0-5471-4bee-84ff-097afcb244a8",
+                            op.has_binary_products(),
+                        ),  # has_binary_coproducts
+                        (
+                            "1a52ca8e-7c83-42bd-9879-552625586589",
+                            cat.has_finite_products(),
+                        ),  # has_finite_products
+                        (
+                            "e226f70b-5780-4c88-8178-85159e9c9145",
+                            op.has_finite_products(),
+                        ),  # has_finite_coproducts
+                        (
+                            "a581b1fc-5caf-4e67-baab-a457531190e8",
+                            cat.is_finitely_complete(),
+                        ),  # is_complete
+                        (
+                            "3b1b76be-f2cb-44d0-9b12-a91f347af7b7",
+                            op.is_finitely_complete(),
+                        ),  # is_cocomplete
+                    ]
+                    extant_props = cur.execute(
+                        """
+                        SELECT "proposition","value"
+                        FROM "KnowledgeBase"
+                        WHERE "category" = '{}'
+                        ;
+                        """.format(
+                            row["id"]
+                        )
+                    ).fetchall()
+                    for pair in pairs:
+                        if any(
+                            str(entry["proposition"]) == pair[0]
+                            and entry["value"] == pair[1]
+                            for entry in extant_props
+                        ):
+                            continue
+                        counter.update(1)
+                        ensure_prop(cur, row["id"], pair[0], pair[1])
