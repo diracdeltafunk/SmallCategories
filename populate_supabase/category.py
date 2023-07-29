@@ -215,23 +215,6 @@ class Category:
         )
 
 
-class Functor:
-    def __init__(
-        self,
-        domain: Category,
-        codomain: Category,
-        object_mapping: dict,
-        morphism_mapping: dict,
-    ):
-        self.domain = domain
-        self.codomain = codomain
-        self.object_mapping = object_mapping
-        self.morphism_mapping = morphism_mapping
-
-    def hom_mapping(self, x, y):
-        return {f: self.morphism_mapping.get(f) for f in self.domain.hom(x, y)}
-
-
 def compute_num_objs(mat: list) -> int:
     morphs = len(mat)
     objs = 0
