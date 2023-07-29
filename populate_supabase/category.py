@@ -1,3 +1,6 @@
+from functor import *
+
+
 class Category:
     def __init__(
         self,
