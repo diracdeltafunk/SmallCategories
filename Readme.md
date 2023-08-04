@@ -72,7 +72,3 @@ The work here is greatly inspired by [Cruttwell-Leblanc](https://www.reluctantm.
 Some of the larger computations were run on cloud computing services, which cost some money. If this database has been useful to you and you'd like to support its development, I'd be grateful for donations.
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/B0B3DOCLE)
-
-## TODO
-
-* Build a website for navigating the database.
