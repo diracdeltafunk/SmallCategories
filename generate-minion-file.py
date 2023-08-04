@@ -14,6 +14,53 @@ print("MINION 3")
 print("**VARIABLES**")
 print("BOOL isdef[{},{}]".format(SIZE, SIZE))
 print("DISCRETE mat[{},{}] {{0..{}}}".format(SIZE, SIZE, SIZE))
+# * Unfortunately this doesn't parse. *
+# print(
+#     "ALIAS assocl[{},{},{}] = {}".format(
+#         SIZE,
+#         SIZE,
+#         SIZE,
+#         "[{}]".format(
+#             ",".join(
+#                 "[{}]".format(
+#                     ",".join(
+#                         "[{}]".format(
+#                             ",".join(
+#                                 "mat[mat[{},{}],{}]".format(i, j, k)
+#                                 for k in range(SIZE)
+#                             )
+#                         )
+#                         for j in range(SIZE)
+#                     )
+#                 )
+#                 for i in range(SIZE)
+#             )
+#         ),
+#     )
+# )
+# print(
+#     "ALIAS assocr[{},{},{}] = {}".format(
+#         SIZE,
+#         SIZE,
+#         SIZE,
+#         "[{}]".format(
+#             ",".join(
+#                 "[{}]".format(
+#                     ",".join(
+#                         "[{}]".format(
+#                             ",".join(
+#                                 "mat[{},mat[{},{}]]".format(i, j, k)
+#                                 for k in range(SIZE)
+#                             )
+#                         )
+#                         for j in range(SIZE)
+#                     )
+#                 )
+#                 for i in range(SIZE)
+#             )
+#         ),
+#     )
+# )
 print("DISCRETE dom[{}] {{0..{}}}".format(SIZE, OBJS - 1))
 print("DISCRETE cod[{}] {{0..{}}}".format(SIZE, OBJS - 1))
 
