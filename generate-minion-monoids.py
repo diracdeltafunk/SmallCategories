@@ -3,8 +3,9 @@
 import sys
 
 SIZE = int(sys.argv[1])
+NONID_IDEMPOTENTS = int(sys.argv[2])
 
-assert SIZE > 0
+assert 1 + NONID_IDEMPOTENTS <= SIZE
 
 print("MINION 3")
 
@@ -37,5 +38,16 @@ for i in range(SIZE):
 for i in range(SIZE):
     print("element(mat[{},_], 0, {})".format(i, i))
     print("element(mat[_,{}], 0, {})".format(i, i))
+
+# Next NONID_IDEMPOTENTS are idempotents
+for i in range(1, 1 + NONID_IDEMPOTENTS):
+    print("element(mat[{},_], {}, {})".format(i, i, i))
+
+# Rest are not idempotents
+for i in range(1 + NONID_IDEMPOTENTS, SIZE):
+    print("watched-or({")
+    print("    ineq({},mat[{},{}],-1),".format(i, i, i))
+    print("    ineq(mat[{},{}],{},-1)".format(i, i, i))
+    print("})")
 
 print("**EOF**")

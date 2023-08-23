@@ -30,12 +30,14 @@ fn to_py_list<T: std::fmt::Display, I: Iterator<Item = T>>(list: I) -> String {
 
 fn main() -> std::io::Result<()> {
     let args: Vec<String> = env::args().collect();
-    // Accept arbitrary number of args, but at least 4:
-    // $0 is command name
-    // $1 is filename in
-    // $2 is filename out
-    // $3 is number of morphisms
-    // $4.. are groupings (e.g. objects, non-id endos, etc.)
+    /*
+       Accept arbitrary number of args, but at least 4:
+       $0 is command name
+       $1 is filename in
+       $2 is filename out
+       $3 is number of morphisms
+       $4.. are groupings (e.g. objects, non-id endos, etc.)
+    */
     if args.len() < 4 {
         return Err(std::io::Error::new(
             std::io::ErrorKind::InvalidInput,
@@ -45,18 +47,23 @@ fn main() -> std::io::Result<()> {
     let filename_in: &String = &args[1];
     let filename_out: &String = &args[2];
     let num_morphisms: usize = args[3].parse().unwrap();
-    let groupings: Vec<usize> = args[4..]
+    let mut groupings: Vec<usize> = args[4..]
         .iter()
         .map(|x| x.parse().unwrap())
         .collect::<Vec<usize>>();
-    // let num_objects: usize = args[2].parse().unwrap();
+    assert!(num_morphisms >= groupings.iter().sum());
+    groupings.push(num_morphisms - groupings.iter().sum::<usize>());
 
     let file_in = std::fs::File::open(filename_in)?;
     let reader = BufReader::new(file_in);
 
     let perms: Vec<Vec<usize>> = groupings
         .iter()
-        .map(|x| (0..*x).permutations(*x))
+        .scan(0, |i, &x| {
+            let r = (*i..*i + x).permutations(x);
+            *i += x;
+            Some(r)
+        })
         .multi_cartesian_product()
         .map(|l| l.concat())
         .collect();
