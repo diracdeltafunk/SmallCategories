@@ -11,4 +11,4 @@ minion -findallsols -noprintsols -solsout minion-out/out$1-$2.txt minion-files/c
 echo "Churning through the results..."
 rm -f database/cats$1-$2.txt
 mkdir -p database
-process-minion-out/target/release/process-minion-out $1 $2 minion-out/out$1-$2.txt database/cats$1-$2.txt
+process-minion-out/target/release/process-minion-out minion-out/out$1-$2.txt database/cats$1-$2.txt $1 $2

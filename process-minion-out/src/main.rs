@@ -1,4 +1,4 @@
-use itertools::{iproduct, Itertools};
+use itertools::Itertools;
 use std::env;
 use std::io::{prelude::*, BufReader, BufWriter};
 
@@ -30,27 +30,36 @@ fn to_py_list<T: std::fmt::Display, I: Iterator<Item = T>>(list: I) -> String {
 
 fn main() -> std::io::Result<()> {
     let args: Vec<String> = env::args().collect();
-    // Should get 5 args: $0 is command name, $1 is number of morphisms, $2 is number of objects, $3 is filename in, $4 is filename out
-    if args.len() != 5 {
+    // Accept arbitrary number of args, but at least 4:
+    // $0 is command name
+    // $1 is filename in
+    // $2 is filename out
+    // $3 is number of morphisms
+    // $4.. are groupings (e.g. objects, non-id endos, etc.)
+    if args.len() < 4 {
         return Err(std::io::Error::new(
             std::io::ErrorKind::InvalidInput,
             "Incorrect number of arguments",
         ));
     }
-    let num_morphisms: usize = args[1].parse().unwrap();
-    let num_objects: usize = args[2].parse().unwrap();
-    let filename_in: &String = &args[3];
-    let filename_out: &String = &args[4];
+    let filename_in: &String = &args[1];
+    let filename_out: &String = &args[2];
+    let num_morphisms: usize = args[3].parse().unwrap();
+    let groupings: Vec<usize> = args[4..]
+        .iter()
+        .map(|x| x.parse().unwrap())
+        .collect::<Vec<usize>>();
+    // let num_objects: usize = args[2].parse().unwrap();
 
     let file_in = std::fs::File::open(filename_in)?;
     let reader = BufReader::new(file_in);
 
-    let perms: Vec<Vec<usize>> = iproduct!(
-        (0..num_objects).permutations(num_objects),
-        (num_objects..num_morphisms).permutations(num_morphisms - num_objects)
-    )
-    .map(|(x, y)| [x, y].concat())
-    .collect();
+    let perms: Vec<Vec<usize>> = groupings
+        .iter()
+        .map(|x| (0..*x).permutations(*x))
+        .multi_cartesian_product()
+        .map(|l| l.concat())
+        .collect();
 
     let mut uniques: Vec<Vec<Vec<usize>>> = Vec::new();
 
