@@ -92,7 +92,7 @@ fn main() -> std::io::Result<()> {
         }
     }
 
-    uniques.sort_unstable();
+    // uniques.sort_unstable();
 
     let file_out = std::fs::File::create(filename_out)?;
     let mut writer = BufWriter::new(file_out);
