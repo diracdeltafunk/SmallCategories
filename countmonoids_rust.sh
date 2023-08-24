@@ -19,10 +19,11 @@ do
     echo "Deleting output file to save disk space..."
     rm -f minion-out/out$1-1-$i.txt
 done
-echo "Merging and sorting results..."
-rm -f database/cats$1-1.txt database/cats$1-1-unsorted.txt
-cat database/cats$1-1-*.txt > database/cats$1-1-unsorted.txt
-sort database/cats$1-1-unsorted.txt > database/cats$1-1.txt
+echo "Merging results..."
+rm -f database/cats$1-1.txt
+cat database/cats$1-1-*.txt > database/cats$1-1.txt
+echo "Sorting output file..."
+sort -o database/cats$1-1.txt database/cats$1-1.txt
 echo "Deleting temporary files..."
 rm -f database/cats$1-1-*.txt
 echo "Counting..."
