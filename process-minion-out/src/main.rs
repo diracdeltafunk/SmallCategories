@@ -2,6 +2,18 @@ use itertools::Itertools;
 use std::env;
 use std::io::{prelude::*, BufReader, BufWriter};
 
+fn perm_group(groupings: &Vec<usize>) -> Vec<Vec<usize>> {
+    groupings
+        .iter()
+        .scan(0, |i, &x| {
+            *i += x;
+            Some((*i - x..*i).permutations(x))
+        })
+        .multi_cartesian_product()
+        .map(|l| l.concat())
+        .collect()
+}
+
 fn invert(n: usize, perm: &Vec<usize>, size: usize) -> usize {
     if n == size {
         return size;
@@ -26,6 +38,17 @@ fn to_py_list<T: std::fmt::Display, I: Iterator<Item = T>>(list: I) -> String {
     result.push_str(&list.map(|x| format!("{}", x)).join(", "));
     result.push_str("]");
     return result;
+}
+
+fn canonical_form(mat: &Vec<Vec<usize>>, perms: &Vec<Vec<usize>>, size: usize) -> Vec<Vec<usize>> {
+    let mut min = mat.clone();
+    for p in perms {
+        let candidate = act(mat, &p, size);
+        if candidate < min {
+            min = candidate;
+        }
+    }
+    min
 }
 
 fn main() -> std::io::Result<()> {
@@ -57,16 +80,11 @@ fn main() -> std::io::Result<()> {
     let file_in = std::fs::File::open(filename_in)?;
     let reader = BufReader::new(file_in);
 
-    let perms: Vec<Vec<usize>> = groupings
-        .iter()
-        .scan(0, |i, &x| {
-            let r = (*i..*i + x).permutations(x);
-            *i += x;
-            Some(r)
-        })
-        .multi_cartesian_product()
-        .map(|l| l.concat())
-        .collect();
+    let perms: Vec<Vec<usize>> = if groupings.len() <= 2 {
+        perm_group(&groupings)
+    } else {
+        perm_group(&vec![groupings[0], num_morphisms - groupings[0]])
+    };
 
     let mut uniques: Vec<Vec<Vec<usize>>> = Vec::new();
 
@@ -80,19 +98,34 @@ fn main() -> std::io::Result<()> {
             .chunks_exact(num_morphisms)
             .map(Vec::from)
             .collect();
-        let mut keep = true;
-        for p in &perms {
-            if mat > act(&mat, p, num_morphisms) {
-                keep = false;
-                break;
+        if groupings.len() <= 2 {
+            // Only grouping is # objects (or no grouping at all), so we can assume every canonical form appears in the file
+            // Thus, drop any object which is not in canonical form
+            // Later we must sort but dedup not necessary
+            let mut keep = true;
+            for p in &perms {
+                if mat > act(&mat, p, num_morphisms) {
+                    keep = false;
+                    break;
+                }
             }
-        }
-        if keep {
-            uniques.push(mat);
+            if keep {
+                uniques.push(mat);
+            }
+        } else {
+            // There may canonical forms not appearing in the file.
+            // Thus, we must compute the canonical form of every line.
+            // We dedup later, after sorting.
+            uniques.push(canonical_form(&mat, &perms, num_morphisms));
         }
     }
 
-    // uniques.sort_unstable();
+    uniques.sort_unstable();
+
+    if groupings.len() > 2 {
+        // Dedup needed.
+        uniques.dedup();
+    }
 
     let file_out = std::fs::File::create(filename_out)?;
     let mut writer = BufWriter::new(file_out);
