@@ -27,4 +27,4 @@ sort -o database/cats$1-1.txt database/cats$1-1.txt
 echo "Deleting temporary files..."
 rm -f database/cats$1-1-*.txt
 echo "Counting..."
-wc -l database/cats$1-1.txt
+wc -l < database/cats$1-1.txt
