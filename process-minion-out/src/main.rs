@@ -80,11 +80,7 @@ fn main() -> std::io::Result<()> {
     let file_in = std::fs::File::open(filename_in)?;
     let reader = BufReader::new(file_in);
 
-    let perms: Vec<Vec<usize>> = if groupings.len() <= 2 {
-        perm_group(&groupings)
-    } else {
-        perm_group(&vec![groupings[0], num_morphisms - groupings[0]])
-    };
+    let perms = perm_group(&groupings);
 
     let mut uniques: Vec<Vec<Vec<usize>>> = Vec::new();
 
@@ -98,34 +94,29 @@ fn main() -> std::io::Result<()> {
             .chunks_exact(num_morphisms)
             .map(Vec::from)
             .collect();
-        if groupings.len() <= 2 {
-            // Only grouping is # objects (or no grouping at all), so we can assume every canonical form appears in the file
-            // Thus, drop any object which is not in canonical form
-            // Later we must sort but dedup not necessary
-            let mut keep = true;
-            for p in &perms {
-                if mat > act(&mat, p, num_morphisms) {
-                    keep = false;
-                    break;
-                }
+        let mut keep = true;
+        for p in &perms {
+            if mat > act(&mat, p, num_morphisms) {
+                keep = false;
+                break;
             }
-            if keep {
-                uniques.push(mat);
-            }
-        } else {
-            // There may canonical forms not appearing in the file.
-            // Thus, we must compute the canonical form of every line.
-            // We dedup later, after sorting.
-            uniques.push(canonical_form(&mat, &perms, num_morphisms));
+        }
+        if keep {
+            uniques.push(mat);
         }
     }
 
-    uniques.sort_unstable();
-
+    // If more than 2 groupings, we must canonize everything
+    // via a larger symmetry group.
     if groupings.len() > 2 {
-        // Dedup needed.
-        uniques.dedup();
+        let coarse_perms = perm_group(&vec![groupings[0], num_morphisms - groupings[0]]);
+        for mat in uniques.iter_mut() {
+            *mat = canonical_form(mat, &coarse_perms, num_morphisms);
+        }
     }
+
+    // Sort the matrices
+    uniques.sort_unstable();
 
     let file_out = std::fs::File::create(filename_out)?;
     let mut writer = BufWriter::new(file_out);
