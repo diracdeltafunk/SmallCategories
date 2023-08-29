@@ -2,11 +2,22 @@
 
 import sys
 
+assert len(sys.argv) >= 3
+
 SIZE = int(sys.argv[1])
 OBJS = int(sys.argv[2])
 
-assert SIZE >= 0
-assert OBJS >= 1
+if SIZE == 0:
+    assert OBJS == 0
+    print(
+        """MINION 3
+**VARIABLES**
+DISCRETE mat[0,0] {0..0}
+**EOF**"""
+    )
+    sys.exit(0)
+
+assert 1 <= OBJS
 assert OBJS <= SIZE
 
 print("MINION 3")

@@ -87,13 +87,17 @@ fn main() -> std::io::Result<()> {
     for line in reader.lines() {
         // The line will consist of num_morphisms*num_morphisms many integers, separated by spaces
         // We parse the line into a num_morphisms x num_morphisms array of integers
-        let mat: Vec<Vec<usize>> = line?
-            .split_whitespace()
-            .map(|x| x.parse().unwrap())
-            .collect::<Vec<usize>>()
-            .chunks_exact(num_morphisms)
-            .map(Vec::from)
-            .collect();
+        let mat: Vec<Vec<usize>> = if num_morphisms > 0 {
+            line?
+                .split_whitespace()
+                .map(|x| x.parse().unwrap())
+                .collect::<Vec<usize>>()
+                .chunks_exact(num_morphisms)
+                .map(Vec::from)
+                .collect()
+        } else {
+            Vec::new()
+        };
         let mut keep = true;
         for p in &perms {
             if mat > act(&mat, p, num_morphisms) {

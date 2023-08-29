@@ -1,6 +1,6 @@
 # SmallCategories
 
-The SmallCategories Project (name inspired by the [SmallGroups](https://docs.gap-system.org/pkg/smallgrp/doc/chap1.html) library in GAP) aims to build a useful database of (isomorphism classes of) small finite categories. Currently, the database is complete for categories with ≤7 morphisms (except the empty category).
+The SmallCategories Project (name inspired by the [SmallGroups](https://docs.gap-system.org/pkg/smallgrp/doc/chap1.html) library in GAP) aims to build a useful database of (isomorphism classes of) small finite categories. Currently, the database is complete for categories with ≤7 morphisms.
 
 This repository contains the code that generates the database, and the complete list of already-computed multiplication tables.
 
@@ -45,7 +45,7 @@ If you use this database or the code in this repository, I'd appreciate it if yo
 
 ## Statistics
 
-**Note.** More than this is known -- see [OEIS](https://oeis.org/A125696) and [Cruttwell-Leblanc](https://www.reluctantm.com/gcruttw/publications/ams2014CruttwellCountingFiniteCats.pdf). This table shows what is actually contained in the database (with an exception: the database does not deal with categories with 0 objects).
+**Note.** More than this is known -- see [OEIS](https://oeis.org/A125696) and [Cruttwell-Leblanc](https://www.reluctantm.com/gcruttw/publications/ams2014CruttwellCountingFiniteCats.pdf). This table shows what is actually contained in the database.
 
 | Objects →<br>Morphisms ↓ | 0 | 1     | 2     | 3     | 4    | 5    | 6   | 7   | 8   | 9 | Total     |
 |--------------------------|---|-------|-------|-------|------|------|-----|-----|-----|---|-----------|
