@@ -11,7 +11,7 @@ If you want to generate the database yourself, you will need:
 * Python 3
 * [Minion](https://github.com/minion/minion)
 
-You may also want to have rustc/cargo installed -- this is optional, but will allow faster computation.
+You may also want to have `make` and `cargo` installed -- this is optional, but will allow faster computation.
 
 ## Running (Without Rust)
 
@@ -27,13 +27,7 @@ To run the above command for all 1≤k≤n≤N, run
 
 ## Running (With Rust)
 
-First, build the `process-minion-out` crate with cargo, by running
-
-> cargo build --release
-
-inside `process-minion-out` directory. This produces an executable which performs the exact same task as the python script `process-minion-out.py`, but much faster.
-
-Once the crate is built, you can use `countcats_rust.sh` and `gen_full_database_rust.sh` instead of the aforementioned shell scripts. Everything should work the same.
+If you have cargo, you can use `countcats_rust.sh`, `countcats_rust_split.sh`, `countmonoids_rust.sh`, and `gen_full_database_rust.sh` instead of the aforementioned shell scripts. Everything should work the same.
 
 ## Using
 

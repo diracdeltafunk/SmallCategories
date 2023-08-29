@@ -1,5 +1,9 @@
 #!/bin/bash
 
+echo "Compiling process-minion-out..."
+make configure
+
+echo "Setting up directories..."
 mkdir -p minion-files
 mkdir -p minion-out
 mkdir -p database
@@ -15,7 +19,7 @@ do
     minion -findallsols -noprintsols -solsout minion-out/out$1-1-$i.txt minion-files/monoid$1-$i.minion > /dev/null 2>&1
     echo "Churning through the results..."
     rm -f database/cats$1-1-$i.txt
-    process-minion-out/target/release/process-minion-out minion-out/out$1-1-$i.txt database/cats$1-1-$i.txt $1 1 $i
+    ./bin/process-minion-out minion-out/out$1-1-$i.txt database/cats$1-1-$i.txt $1 1 $i
     echo "Deleting output file to save disk space..."
     rm -f minion-out/out$1-1-$i.txt
 done
