@@ -8,26 +8,30 @@ This repository contains the code that generates the database, and the complete 
 
 If you want to generate the database yourself, you will need:
 
-* Python 3
+* [Python 3](https://www.python.org/downloads)
+* [make](https://www.gnu.org/software/make)
+* [rust/cargo](https://rustup.rs) (or just `rustc`, with some manual fiddling)
 * [Minion](https://github.com/minion/minion)
 
-You may also want to have `make` and `cargo` installed -- this is optional, but will allow faster computation.
-
-## Running (Without Rust)
+## Running
 
 To generate the multiplication tables of categories with n morphisms and k objects, run
 
 > ./countcats.sh n k
 
-This will produce a file named `catsn-k.txt` (containing the multipication tables) in the `database` directory, and print out the number of isomorphism classes of such categories.
+This will produce a file named `catsn-k.txt` (containing the multipication tables) in the `database` directory, and print out the number of isomorphism classes of such categories. You can also use
 
-To run the above command for all 1≤k≤n≤N, run
+> ./countcats_split.sh n k
+
+which accomplishes the same task, using less disk space (but potentially twice as much memory). To run the above command for all 0≤k≤n≤N, run
 
 > ./gen_full_database.sh N
 
-## Running (With Rust)
+You can also use
 
-If you have cargo, you can use `countcats_rust.sh`, `countcats_rust_split.sh`, `countmonoids_rust.sh`, and `gen_full_database_rust.sh` instead of the aforementioned shell scripts. Everything should work the same.
+> ./countmonoids.sh n
+
+to accomplish the same task as `./countcats_split.sh n 1`, using less disk space.
 
 ## Using
 
