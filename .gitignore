@@ -3,3 +3,4 @@ minion-files
 .vscode
 __pycache__
 bin
+.crates*
