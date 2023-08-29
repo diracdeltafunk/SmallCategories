@@ -14,19 +14,26 @@ fn perm_group(groupings: &Vec<usize>) -> Vec<Vec<usize>> {
         .collect()
 }
 
-fn invert(n: usize, perm: &Vec<usize>, size: usize) -> usize {
-    if n == size {
-        return size;
-    }
-    perm.iter().position(|x| (*x) == n).unwrap()
+// Assumes perm contains every integer from 0 to perm.len()-1,
+// i.e. is a permutation of (0..perm.len())
+fn invert_perm(perm: &Vec<usize>) -> Vec<usize> {
+    (0..perm.len())
+        .map(|x| perm.iter().position(|y| *y == x).unwrap())
+        .collect()
 }
 
 fn act(mat: &Vec<Vec<usize>>, perm: &Vec<usize>, size: usize) -> Vec<Vec<usize>> {
+    let inverted = invert_perm(perm);
     let mut result = Vec::new();
     for i in 0..size {
         let mut r = Vec::new();
         for j in 0..size {
-            r.push(invert(mat[perm[i]][perm[j]], perm, size));
+            let pre = mat[perm[i]][perm[j]];
+            if pre == size {
+                r.push(size);
+            } else {
+                r.push(inverted[pre]);
+            }
         }
         result.push(r);
     }
