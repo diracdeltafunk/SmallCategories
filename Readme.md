@@ -23,7 +23,11 @@ This will produce a file named `catsn-k.txt` (containing the multipication table
 
 > ./countcats_split.sh n k
 
-which accomplishes the same task, using less disk space (but potentially twice as much memory). To run the above command for all 0≤k≤n≤N, run
+or
+
+> ./countcats_hypersplit.sh n k
+
+which accomplishes the same task, using less disk space (but potentially twice as much memory). To run `./countcats.sh n k` for all 0≤k≤n≤N, run
 
 > ./gen_full_database.sh N
 
@@ -31,7 +35,7 @@ You can also use
 
 > ./countmonoids.sh n
 
-to accomplish the same task as `./countcats_split.sh n 1`, using less disk space.
+to accomplish the same task as `./countcats_split.sh n 1`, using less memory.
 
 ## Using
 
