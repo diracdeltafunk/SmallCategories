@@ -2,6 +2,9 @@ use itertools::Itertools;
 use std::env;
 use std::io::{prelude::*, BufReader, BufWriter};
 
+// Generates the permutation group S_{n_1} × S_{n_2} × ... × S_{n_k}
+// as standardly embedded in S_{n_1 + n_2 + ... + n_k},
+// where groupings = [n_1, n_2, ..., n_k]
 fn perm_group(groupings: &Vec<usize>) -> Vec<Vec<usize>> {
     groupings
         .iter()
@@ -22,6 +25,8 @@ fn invert_perm(perm: &Vec<usize>) -> Vec<usize> {
         .collect()
 }
 
+// Acts on mat by perm, i.e. pushes the binary operation encoded by mat
+// along the bijection encoded by perm
 fn act(mat: &Vec<Vec<usize>>, perm: &Vec<usize>, size: usize) -> Vec<Vec<usize>> {
     let inverted = invert_perm(perm);
     let mut result = Vec::new();
