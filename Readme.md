@@ -33,7 +33,7 @@ If you have cargo, you can use `countcats_rust.sh`, `countcats_rust_split.sh`, `
 
 Each text file in the `database` directory contains a list (one entry per line) of multiplication tables of categories. For example, there are 7 categories with 1 object and 3 morphisms, so the file `database/cats3-1.txt` has 7 lines. Each line is a matrix (written as a list of lists) representing the multiplication table of a category. If `m` is a matrix representing a category with morphism set {0,...,n-1}, then `m[i][j]` is the result of the composition `i∘j`, or `n` if the composition is undefined.
 
-Each file is sorted lexicographically.
+Each file is sorted lexicographically, and with the following guarantee: each line in the file is the (lexicographically) minimal element of its isomorphism class.
 
 If you use this database or the code in this repository, I'd appreciate it if you cite me (Ben Spitz) and add a link to this repository to your acknowledgements. You are not required to do so, but I would appreciate it.
 
