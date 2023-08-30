@@ -10,13 +10,11 @@ mkdir -p database
 
 for ((i = 0; i <= $(($1-$2)); i++))
 do
-    echo "[$i non-identity idempotents]"
     for ((j = 0; j <= $(($1-$2-$i)); j++))
     do
-        echo "[$j non-idempotent endomorphisms]"
         for ((k = 0; 2*k <= $(($1-$2-$i-$j)); k++))
         do
-            echo "[$k non-endomorphic isomorphism pairs]"
+            echo "[$i $j $k]"
             if ! [ -f minion-files/category$1-$2-$i-$j-$k.minion ]
             then
                 echo "Writing minion file..."
