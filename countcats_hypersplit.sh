@@ -17,17 +17,23 @@ do
         for ((k = 0; 2*k <= $(($1-$2-$i-$j)); k++))
         do
             echo "[$k non-endomorphic isomorphism pairs]"
-            echo "Writing minion file..."
-            rm -f minion-files/category$1-$2-$i-$j-$k.minion
-            python3 generate-minion-file-hypersplit.py $1 $2 $i $j $k > minion-files/category$1-$2-$i-$j-$k.minion
-            echo "Running minion..."
-            rm -f minion-out/out$1-$2-$i-$j-$k.txt
-            minion -findallsols -noprintsols -solsout minion-out/out$1-$2-$i-$j-$k.txt minion-files/category$1-$2-$i-$j-$k.minion > /dev/null 2>&1
-            echo "Churning through the results..."
-            rm -f database/cats$1-$2-$i-$j-$k.txt
-            ./bin/process-minion-out minion-out/out$1-$2-$i-$j-$k.txt database/cats$1-$2-$i-$j-$k.txt $1 $2 $i $j $k
-            echo "Deleting output file to save disk space..."
-            rm -f minion-out/out$1-$2-$i-$j-$k.txt
+            if ! [ -f minion-files/category$1-$2-$i-$j-$k.minion ]
+            then
+                echo "Writing minion file..."
+                python3 generate-minion-file-hypersplit.py $1 $2 $i $j $k > minion-files/category$1-$2-$i-$j-$k.minion
+            fi
+            if ! [ -f minion-out/out$1-$2-$i-$j-$k.txt ]
+            then
+                echo "Running minion..."
+                minion -findallsols -noprintsols -solsout minion-out/out$1-$2-$i-$j-$k.txt minion-files/category$1-$2-$i-$j-$k.minion > /dev/null 2>&1
+            fi
+            if ! [ -f database/cats$1-$2-$i-$j-$k.txt ]
+            then
+                echo "Churning through the results..."
+                ./bin/process-minion-out minion-out/out$1-$2-$i-$j-$k.txt database/cats$1-$2-$i-$j-$k.txt $1 $2 $i $j $k
+                echo "Deleting output file to save disk space..."
+                rm -f minion-out/out$1-$2-$i-$j-$k.txt
+            fi
         done
     done
 done
