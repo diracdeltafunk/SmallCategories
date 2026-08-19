@@ -2,8 +2,8 @@
 
 This directory contains the public, database-derived data needed to build the static SmallCats website without Supabase:
 
-- `propositions.json`: proposition IDs, names, descriptions, and stable bit assignments;
-- `categories.ndjson`: category UUIDs, public names/descriptions, multiplication-table fingerprints, and compact proposition masks;
+- `propositions.json`: proposition names, descriptions, and stable bit assignments;
+- `categories.ndjson`: public names/descriptions, multiplication-table fingerprints, and compact proposition masks;
 - `export-manifest.json`: format version, export timestamp, and checked source counts.
 
 The category tables themselves remain canonical in `../database/`. The website compiler matches each exported row to a category by the SHA-256 hash of its compact JSON multiplication table. It does not trust the historical numeric index.
