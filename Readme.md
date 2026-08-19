@@ -65,7 +65,7 @@ If you use this database or the code in this repository, I'd appreciate it if yo
 | 11                       | 0 |       |       |         |         |      | 7598 | 949 | 132 | 21  | 3  | 1  |           |
 | 12                       | 0 |       |       |         |         |      |      |     | 950 | 132 | 21 | 3  |           |
 
-The italicized entries disagree with the values 60201 and 65922 reported by Cruttwell-Leblanc. A mathematical and implementation audit supports the values 60322 and 68990 shown here. Earlier versions of this database listed 68815 in the second cell because an invalid symmetry reduction omitted 175 isomorphism classes. See [Enumeration & Verification](https://smallcats.info/enumeration) for the counting method, the discrepancy analysis, and the correction.
+The italicized entries disagree with the values 60201 and 65922 reported by Cruttwell-Leblanc. A mathematical and implementation audit supports the values 60322 and 68990 shown here. Earlier versions of this database listed 68815 in the second cell; the audit identified 175 additional isomorphism classes. See [Enumeration & Verification](https://smallcats.info/enumeration) for the counting method, the discrepancy analysis, and the correction.
 
 ## Acknowledgements
 
