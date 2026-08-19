@@ -70,9 +70,3 @@ The italicized entries disagree with the values 60201 and 65922 reported by Crut
 ## Acknowledgements
 
 The work here is greatly inspired by [Cruttwell-Leblanc](https://www.reluctantm.com/gcruttw/publications/ams2014CruttwellCountingFiniteCats.pdf). They deserve all of the credit for all of the ideas in the code -- I simply wanted to make available a complete database of small categories.
-
-## Donate
-
-Some of the larger computations were run on cloud computing services, which cost some money. If this database has been useful to you and you'd like to support its development, I'd be grateful for donations.
-
-[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/B0B3DOCLE)

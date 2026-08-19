@@ -1,13 +1,13 @@
-# Website metadata export
+# Website build data
 
-This directory contains the public, database-derived data needed to build the static SmallCats website without Supabase:
+This directory contains the preserved public metadata and proposition values used to build the static SmallCats website:
 
 - `propositions.json`: proposition names, descriptions, and stable bit assignments;
 - `categories.ndjson`: public names/descriptions, multiplication-table fingerprints, and compact proposition masks;
-- `export-manifest.json`: format version, export timestamp, and checked source counts.
+- `export-manifest.json`: format version, snapshot timestamp, and checked record counts.
 
-The category tables themselves remain canonical in `../database/`. The website compiler matches each exported row to a category by the SHA-256 hash of its compact JSON multiplication table. It does not trust the historical numeric index.
+The category tables themselves remain canonical in `../database/`. The website compiler matches each snapshot row to a category by the SHA-256 hash of its compact JSON multiplication table. It does not trust the historical numeric index.
 
-These fields were already served publicly by smallcats.info. Connection strings, API keys, passwords, roles, private schemas, and other credentials are not included.
+These files are build inputs, not credentials or a database backup. They contain only information already published by smallcats.info.
 
-Regenerate this directory with `SmallCategories-site/static-site/scripts/export_supabase.py` while the source database is available, validate a complete static build, and replace all three data files together. The export format is documented and checked by the static-site compiler.
+When updating this snapshot, replace all three data files together and run the static site's production build. The compiler validates the format, source counts, proposition masks, and multiplication-table fingerprints.
