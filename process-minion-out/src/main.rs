@@ -2,24 +2,76 @@ use itertools::Itertools;
 use std::env;
 use std::io::{prelude::*, BufReader, BufWriter};
 
-// Generates the permutation group S_{n_1} × S_{n_2} × ... × S_{n_k}
-// as standardly embedded in S_{n_1 + n_2 + ... + n_k},
-// where groupings = [n_1, n_2, ..., n_k]
-fn perm_group(groupings: &Vec<usize>) -> Vec<Vec<usize>> {
-    groupings
-        .iter()
-        .scan(0, |i, &x| {
-            *i += x;
-            Some((*i - x..*i).permutations(x))
-        })
-        .multi_cartesian_product()
-        .map(|l| l.concat())
-        .collect()
+#[derive(Clone, Copy)]
+enum PermutationBlock {
+    // Every label in the block may be permuted independently.
+    Symmetric(usize),
+    // The block contains adjacent inverse pairs. Pairs may be permuted, and
+    // the two labels in each pair may be swapped, but pairs may not be broken.
+    InversePairs(usize),
+}
+
+impl PermutationBlock {
+    fn label_count(&self) -> usize {
+        match self {
+            Self::Symmetric(size) => *size,
+            Self::InversePairs(pairs) => 2 * pairs,
+        }
+    }
+}
+
+fn block_permutations(block: PermutationBlock, start: usize) -> Vec<Vec<usize>> {
+    match block {
+        PermutationBlock::Symmetric(size) => (start..start + size).permutations(size).collect(),
+        PermutationBlock::InversePairs(pairs) => {
+            let orientations: Vec<Vec<usize>> = if pairs == 0 {
+                vec![Vec::new()]
+            } else {
+                (0..pairs).map(|_| 0..2).multi_cartesian_product().collect()
+            };
+            let mut result = Vec::new();
+
+            for pair_order in (0..pairs).permutations(pairs) {
+                for orientation in &orientations {
+                    let mut permutation = Vec::with_capacity(2 * pairs);
+                    for (&pair, &swap) in pair_order.iter().zip(orientation) {
+                        permutation.push(start + 2 * pair + swap);
+                        permutation.push(start + 2 * pair + 1 - swap);
+                    }
+                    result.push(permutation);
+                }
+            }
+
+            result
+        }
+    }
+}
+
+// Generates the direct product of the permutation actions for consecutive
+// blocks, standardly embedded in the symmetric group on all labels.
+fn perm_group(groupings: &[PermutationBlock]) -> Vec<Vec<usize>> {
+    let mut start = 0;
+    let mut result = vec![Vec::new()];
+
+    for &block in groupings {
+        let block_perms = block_permutations(block, start);
+        start += block.label_count();
+        result = result
+            .into_iter()
+            .cartesian_product(block_perms)
+            .map(|(mut prefix, suffix)| {
+                prefix.extend(suffix);
+                prefix
+            })
+            .collect();
+    }
+
+    result
 }
 
 // Assumes perm contains every integer from 0 to size-1 exactly once,
 // i.e. is a permutation of (0..size)
-fn invert_perm(perm: &Vec<usize>, size: usize) -> Vec<usize> {
+fn invert_perm(perm: &[usize], size: usize) -> Vec<usize> {
     (0..size)
         .map(|x| perm.iter().position(|y| *y == x).unwrap())
         .collect()
@@ -27,7 +79,7 @@ fn invert_perm(perm: &Vec<usize>, size: usize) -> Vec<usize> {
 
 // Acts on mat by perm, i.e. pushes the binary operation encoded by mat
 // along the bijection encoded by perm
-fn act(mat: &Vec<Vec<usize>>, perm: &Vec<usize>, size: usize) -> Vec<Vec<usize>> {
+fn act(mat: &[Vec<usize>], perm: &[usize], size: usize) -> Vec<Vec<usize>> {
     let inverted = invert_perm(perm, size);
     let mut result = Vec::new();
     for i in 0..size {
@@ -44,14 +96,14 @@ fn act(mat: &Vec<Vec<usize>>, perm: &Vec<usize>, size: usize) -> Vec<Vec<usize>>
 fn to_py_list<T: std::fmt::Display, I: Iterator<Item = T>>(list: I) -> String {
     let mut result = String::from("[");
     result.push_str(&list.map(|x| format!("{}", x)).join(", "));
-    result.push_str("]");
-    return result;
+    result.push(']');
+    result
 }
 
-fn canonical_form(mat: &Vec<Vec<usize>>, perms: &Vec<Vec<usize>>, size: usize) -> Vec<Vec<usize>> {
-    let mut min = mat.clone();
+fn canonical_form(mat: &[Vec<usize>], perms: &[Vec<usize>], size: usize) -> Vec<Vec<usize>> {
+    let mut min = mat.to_vec();
     for p in perms {
-        let candidate = act(mat, &p, size);
+        let candidate = act(mat, p, size);
         if candidate < min {
             min = candidate;
         }
@@ -67,7 +119,9 @@ fn main() -> std::io::Result<()> {
        $1 is filename in
        $2 is filename out
        $3 is number of morphisms
-       $4.. are groupings (e.g. objects, non-id endos, etc.)
+       $4.. are grouping specifications (e.g. objects, non-id endos, etc.)
+           N means a symmetric block of N consecutive labels.
+           pairs:N means N adjacent inverse pairs, acted on by S_2 wr S_N.
     */
     if args.len() < 4 {
         return Err(std::io::Error::new(
@@ -78,12 +132,22 @@ fn main() -> std::io::Result<()> {
     let filename_in: &String = &args[1];
     let filename_out: &String = &args[2];
     let num_morphisms: usize = args[3].parse().unwrap();
-    let mut groupings: Vec<usize> = args[4..]
+    let mut groupings: Vec<PermutationBlock> = args[4..]
         .iter()
-        .map(|x| x.parse().unwrap())
-        .collect::<Vec<usize>>();
-    assert!(num_morphisms >= groupings.iter().sum());
-    groupings.push(num_morphisms - groupings.iter().sum::<usize>());
+        .map(|x| {
+            if let Some(pairs) = x.strip_prefix("pairs:") {
+                PermutationBlock::InversePairs(pairs.parse().unwrap())
+            } else {
+                PermutationBlock::Symmetric(x.parse().unwrap())
+            }
+        })
+        .collect();
+    let grouped_labels = groupings
+        .iter()
+        .map(PermutationBlock::label_count)
+        .sum::<usize>();
+    assert!(num_morphisms >= grouped_labels);
+    groupings.push(PermutationBlock::Symmetric(num_morphisms - grouped_labels));
 
     let file_in = std::fs::File::open(filename_in)?;
     let reader = BufReader::new(file_in);
@@ -121,7 +185,11 @@ fn main() -> std::io::Result<()> {
     // If more than 2 groupings, we must canonize everything
     // via a larger symmetry group.
     if groupings.len() > 2 {
-        let coarse_perms = perm_group(&vec![groupings[0], num_morphisms - groupings[0]]);
+        let num_objects = groupings[0].label_count();
+        let coarse_perms = perm_group(&[
+            PermutationBlock::Symmetric(num_objects),
+            PermutationBlock::Symmetric(num_morphisms - num_objects),
+        ]);
         for mat in uniques.iter_mut() {
             *mat = canonical_form(mat, &coarse_perms, num_morphisms);
         }
@@ -135,8 +203,9 @@ fn main() -> std::io::Result<()> {
     let mut num_uniques: usize = 0;
     for mat in uniques {
         // Write mat as a python list to the file
-        writer.write(to_py_list(mat.into_iter().map(|r| to_py_list(r.into_iter()))).as_bytes())?;
-        writer.write(b"\n")?;
+        writer
+            .write_all(to_py_list(mat.into_iter().map(|r| to_py_list(r.into_iter()))).as_bytes())?;
+        writer.write_all(b"\n")?;
         num_uniques += 1;
     }
 

@@ -28,7 +28,7 @@ do
             if ! [ -f database/cats$1-$2-$i-$j-$k.txt ]
             then
                 echo "Churning through the results..."
-                ./bin/process-minion-out minion-out/out$1-$2-$i-$j-$k.txt database/cats$1-$2-$i-$j-$k.txt $1 $2 $i $j $k
+                ./bin/process-minion-out minion-out/out$1-$2-$i-$j-$k.txt database/cats$1-$2-$i-$j-$k.txt $1 $2 $i $j pairs:$k
                 echo "Deleting output file to save disk space..."
                 rm -f minion-out/out$1-$2-$i-$j-$k.txt
             fi
