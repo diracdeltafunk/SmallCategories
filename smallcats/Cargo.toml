@@ -1,0 +1,25 @@
+[package]
+name = "smallcats"
+version = "0.2.0"
+edition = "2024"
+
+[dependencies]
+flate2 = "1"
+rayon = "1"
+
+[lib]
+name = "smallcats"
+path = "src/lib.rs"
+
+[[bin]]
+name = "smallcats-enumerate"
+path = "src/bin/enumerate.rs"
+
+[[bin]]
+name = "smallcats-components"
+path = "src/bin/components.rs"
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1

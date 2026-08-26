@@ -4,3 +4,4 @@ minion-files
 __pycache__
 bin
 .crates*
+target
